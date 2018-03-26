@@ -4,16 +4,18 @@
  * as a guideline for developing your own functions.
  */
 
+#include <stdio.h>
 #include "echo.h"
+#define STR_SIZE 100
 
 char **
 echo_1_svc(char **argp, struct svc_req *rqstp)
 {
-	static char * result;
-
-	/*
-	 * insert server code here
-	 */
-
-	return &result;
+	static int result = 0;
+	result++;
+	char **buf = (char**) malloc(sizeof(char*));
+	*buf = (char*) malloc(sizeof(char) * STR_SIZE);
+	int size = snprintf(NULL, 0, " %s %d\n", *msg, result);
+	snprintf(*buf, size + 1, " %s %d\n", *msg, result);
+	return((char**)buf);
 }
