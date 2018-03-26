@@ -1,5 +1,5 @@
 #include <stdio.h>
-#include<stdlib.h>
+#include <stdlib.h>
 #include <sys/socket.h>
 #include <sys/types.h>
 #include <string.h>
@@ -17,6 +17,7 @@ int main(int argc, char *argv[])
 {  
   int  sockfd, newsockfd, clilen;
   struct sockaddr_in  cli_addr, serv_addr;
+  int count = 0;
 
   if ((sockfd = socket(AF_INET, SOCK_STREAM, 0)) < 0)   /* abre um socket TCP */
     erro("abrindo socket\n")
@@ -35,17 +36,20 @@ int main(int argc, char *argv[])
 
   listen(sockfd, 5);
 
-  clilen = sizeof(cli_addr);
-  printf("I'm %i Listening %i\n", getpid(), sockfd); 
-  newsockfd = accept(sockfd, (struct sockaddr *) &cli_addr, &clilen);
-  if (newsockfd < 0)
-        erro("server: accept error")
-    
-   char buf[MAX_LINE];
-   recv(newsockfd, buf, MAX_LINE, 0);
-   sleep(5);          
-   send(newsockfd, buf, strlen(buf) + 1, 0); /* process the request */
+  
+      clilen = sizeof(cli_addr);
+      printf("I'm %i Listening %i\n", getpid(), sockfd); 
+      newsockfd = accept(sockfd, (struct sockaddr *) &cli_addr, &clilen);
+      if (newsockfd < 0)
+            erro("server: accept error")
+  while(1)
+  {      
+       char buf[MAX_LINE];
+       recv(newsockfd, buf, MAX_LINE, 0);
+       sleep(5);          
+       send(newsockfd, buf, strlen(buf) + 1, 0); /* process the request */
 
-    close(newsockfd);       
+        close(newsockfd); 
+  }      
   return 0;
 }
