@@ -17,7 +17,7 @@
 #endif
 
 static void
-ecgi_prog_1(struct svc_req *rqstp, register SVCXPRT *transp)
+echoprog_1(struct svc_req *rqstp, register SVCXPRT *transp)
 {
 	union {
 		char *echo_1_arg;
@@ -62,15 +62,15 @@ main (int argc, char **argv)
 {
 	register SVCXPRT *transp;
 
-	pmap_unset (ECGI_PROG, ECHO_VERSION);
+	pmap_unset (ECHOPROG, ECHOVERS);
 
 	transp = svcudp_create(RPC_ANYSOCK);
 	if (transp == NULL) {
 		fprintf (stderr, "%s", "cannot create udp service.");
 		exit(1);
 	}
-	if (!svc_register(transp, ECGI_PROG, ECHO_VERSION, ecgi_prog_1, IPPROTO_UDP)) {
-		fprintf (stderr, "%s", "unable to register (ECGI_PROG, ECHO_VERSION, udp).");
+	if (!svc_register(transp, ECHOPROG, ECHOVERS, echoprog_1, IPPROTO_UDP)) {
+		fprintf (stderr, "%s", "unable to register (ECHOPROG, ECHOVERS, udp).");
 		exit(1);
 	}
 
@@ -79,8 +79,8 @@ main (int argc, char **argv)
 		fprintf (stderr, "%s", "cannot create tcp service.");
 		exit(1);
 	}
-	if (!svc_register(transp, ECGI_PROG, ECHO_VERSION, ecgi_prog_1, IPPROTO_TCP)) {
-		fprintf (stderr, "%s", "unable to register (ECGI_PROG, ECHO_VERSION, tcp).");
+	if (!svc_register(transp, ECHOPROG, ECHOVERS, echoprog_1, IPPROTO_TCP)) {
+		fprintf (stderr, "%s", "unable to register (ECHOPROG, ECHOVERS, tcp).");
 		exit(1);
 	}
 

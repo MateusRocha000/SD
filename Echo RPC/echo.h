@@ -14,20 +14,20 @@ extern "C" {
 #endif
 
 
-#define ECGI_PROG 0x20000001
-#define ECHO_VERSION 1
+#define ECHOPROG 0x20000001
+#define ECHOVERS 1
 
 #if defined(__STDC__) || defined(__cplusplus)
 #define ECHO 1
 extern  char ** echo_1(char **, CLIENT *);
 extern  char ** echo_1_svc(char **, struct svc_req *);
-extern int ecgi_prog_1_freeresult (SVCXPRT *, xdrproc_t, caddr_t);
+extern int echoprog_1_freeresult (SVCXPRT *, xdrproc_t, caddr_t);
 
 #else /* K&R C */
 #define ECHO 1
 extern  char ** echo_1();
 extern  char ** echo_1_svc();
-extern int ecgi_prog_1_freeresult ();
+extern int echoprog_1_freeresult ();
 #endif /* K&R C */
 
 #ifdef __cplusplus
