@@ -37,7 +37,14 @@ int main(int narg, char *varg[])
 
     while(1)
     {
+        printf("Digite uma mensagem ou 0 para fechar:\n");
         fgets(buf, 100, stdin);
+
+        if (buf[0] == '0'){
+            close(socketfd);
+            break;
+        }
+
         send(socketfd, buf, strlen(buf) + 1, 0);
 
         // receive data from server
@@ -56,7 +63,6 @@ int main(int narg, char *varg[])
 
         printf("received from server %d bytes:%s\n", recv_len, buf);
     }
-    
-    close(socketfd);
+
     return 0;
 }

@@ -35,22 +35,34 @@ int main(int narg, char *varg[])
         return -1;
     }
 
-    send(socketfd, buf, strlen(buf) + 1, 0);
+    while(1)
+    {
+        printf("Digite uma mensagem ou 0 para fechar:\n");
+        fgets(buf, 100, stdin);
 
-    // receive data from server
-    recv_len = recv(socketfd, buf, strlen(buf) + 1, 0);
-    if (recv_len == 0) {
-        printf("server disconnected!\n");
-        close(socketfd);
-        return 0;
+        if (buf[0] == '0'){
+            close(socketfd);
+            break;
+        }
+
+        send(socketfd, buf, strlen(buf) + 1, 0);
+
+        // receive data from server
+        recv_len = recv(socketfd, buf, strlen(buf) + 1, 0);
+
+        if (recv_len == 0) {
+            printf("server disconnected!\n");
+            close(socketfd);
+            return 0;
+        }
+        
+        if (recv_len < 0) {
+            perror("error receiving data from server");
+            return -1;
+        }
+
+        printf("received from server %d bytes:%s\n", recv_len, buf);
     }
-    if (recv_len < 0) {
-        perror("error receiving data from server");
-        return -1;
-    }
 
-    printf("received from server %d bytes:%s", recv_len, buf);
-
-    close(socketfd);
     return 0;
 }
